@@ -1,0 +1,32 @@
+# Virtual environment
+venv/
+.venv/
+env/
+.env
+
+# Ignore database file
+db.sqlite3
+
+# Ignore static files directory
+staticfiles/
+migrations/
+# Ignore media files directory
+
+# Ignore local settings
+local_settings.py
+
+# Ignore logs and other generated files
+*.log
+*.pot
+*.pyc
+__pycache__/
+.cache/
+.coverage
+coverage.xml
+nosetests.xml
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore IDE-specific files (e.g., VS Code)
+.vscode/
