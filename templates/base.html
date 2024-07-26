@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}">
     {% block links %}
         
     {% endblock links %}
@@ -21,7 +21,7 @@
         </title>
 </head>
 <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light " >
             <div class="container-fluid">
             <a class="navbar-brand" href="/"><i class="fa-solid fa-shop"></i> Paper </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" id="boton" 
@@ -29,47 +29,104 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     
-                            <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link" href="#">List Categories</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                            <a href="#" class="nav-link">Create item Product</a>
-                            </li>
-                        <li class="nav-item dropdown ">
-                            <a href="" class="nav-link">Perfil</a>
-                        </li>
-                            <li class="nav-item dropdown ">
-                            <a href="{% url 'home' %}" class="nav-link">Productos</a>
-                            </li>
-                        <li class="nav-item dropdown ">
-                        <a href="#" class="nav-link">Cerrar Sesion</a>
-                        </li>
-                        <li class="nav-item dropdown ">
-                        
-                                <a href="#" class="nav-link">Login</a>
-                        
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link">Registrarse</a>
-
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
+        <div class="wrapper">
+            <aside id="sidebar">
+                <div class="d-flex">
+                    <button class="toggle-btn" type="button">
+                        <i class="fa-solid fa-maximize"></i>
+                    </button>
+                    <div class="sidebar-logo">
+                        <a href="#">Turig-system</a>
+                    </div>
+                </div>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-house-chimney"></i>                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                            data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Auth</span>
+                        </a>
+                        <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link">Login</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link">Register</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                            data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
+                            <i class="fa-solid fa-list"></i>
+                            <span>Opciones Recetas</span>
+                        </a>
+                        <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
+                                    Opciones
+                                </a>
+                                <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link"><i class="fa-solid fa-cart-flatbed"></i>Productos</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link"><i class="fa-solid fa-tags"></i>Recetas</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link"><i class="fa-solid fa-cubes-stacked"></i></i>Ingredientes</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span>Estadistica</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-gear"></i>
+                            <span>Setting</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <a href="#" class="sidebar-link">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </aside>
+            <main class="main p-3">
+                
+                {% block content %}
+                    
+                {% endblock content %}
+                    
+            </main>
+        </div>    
+
         
-    <main>
-        {% block content %}
-        
-        {% endblock content %}
-    </main>
-        
-    <footer class="position-relative bg-light mt-5" style="width: 100%;">
+    <footer class="position-relative " style="width: 100%;background-color:#635C36">
         <section class="container-fluid d-flex flex-row justify-content-evenly pt-5">
             <div class="row">
                 <div class="col-md-2">
@@ -111,6 +168,12 @@
 
       <!-- Boosttrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        const hamBurger = document.querySelector(".toggle-btn");
 
+        hamBurger.addEventListener("click", function () {
+          document.querySelector("#sidebar").classList.toggle("expand");
+        });    
+    </script>
 </body>
 </html>
