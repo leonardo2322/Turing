@@ -100,7 +100,7 @@ class Producto(models.Model):
     def save(self,*args, **kwargs):
         super().save(*args, **kwargs)
         
-        inventario, created = Inventario_productos.objects.get_or_create(stock_producto=self)
+        inventario, created = Inventario_producto.objects.get_or_create(stock_producto=self)
         inventario.cantidad = self.cantidad_en_stock
         inventario.save()
     def __str__(self):
