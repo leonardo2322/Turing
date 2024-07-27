@@ -13,7 +13,8 @@ class Profile(models.Model):
         verbose_name_plural = 'Perfiles'
         ordering = ["-id"]
 
-
+    def __str__(self):
+        return self.user.username
 def creat_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
