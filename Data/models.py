@@ -1,7 +1,11 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+from .mixins import DictMixin
 # Create your models here.
-class Categoria(models.Model):
+
+class Categoria(models.Model,DictMixin):
     nombre = models.CharField(max_length=50,unique=True)
     
     def __str__(self):
@@ -10,7 +14,7 @@ class Categoria(models.Model):
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
         ordering = ["-id"]
-class Ingrediente(models.Model):
+class Ingrediente(models.Model,DictMixin):
 
     CHOICES_GRAMAJE = {
         "kilogramos":"kg"  ,
@@ -35,10 +39,15 @@ class Ingrediente(models.Model):
         inventario.cantidad = self.cantidad
         inventario.cantidad_kg = self.cantidad_granel
         inventario.save()
+
+    def delete(self,*args,**kwargs):
+        Inventario_materia.objects.filter(stock_ingrediente=self).delete()
+        super().delete(*args,**kwargs)
+        
     def __str__(self) -> str:
         return self.nombre
     
-class Receta(models.Model):
+class Receta(models.Model,DictMixin):
     nombre = models.CharField(max_length=50, unique=True, blank=False, null=False)
     ingredientes = models.ManyToManyField(Ingrediente, through="CantidadIngrediente")
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -49,7 +58,7 @@ class Receta(models.Model):
     def __str__(self) -> str:
         return self.nombre+"_receta"
 
-class CantidadIngrediente(models.Model):
+class CantidadIngrediente(models.Model,DictMixin):
     CHOICES_GRAMAJE = {
         "kilogramos":"kg"  ,
         "gramos" : "g",
@@ -70,7 +79,7 @@ class CantidadIngrediente(models.Model):
         return f"para la receta:{self.receta.nombre} ingrdiente: {self.ingrediente.nombre} la cant: {str(self.cantidad)}{self.gramaje_cant} costo x Ing:{self.costo_total()} "
     
 
-class Producto(models.Model):
+class Producto(models.Model,DictMixin):
     nombre = models.CharField(max_length=70,unique=True)
     receta = models.ForeignKey(Receta, on_delete=models.CASCADE)
     precio_venta = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
@@ -103,11 +112,16 @@ class Producto(models.Model):
         inventario, created = Inventario_producto.objects.get_or_create(stock_producto=self)
         inventario.cantidad = self.cantidad_en_stock
         inventario.save()
+
+    def delete(self,*args,**kwargs):
+        Inventario_producto.objects.filter(stock_producto=self).delete()
+        super().delete(*args,**kwargs)
+
     def __str__(self):
         return self.nombre
     
 
-class Ingresos(models.Model):
+class Ingresos(models.Model,DictMixin):
 
     fecha = models.DateField(blank=True, null=True)
     descripcion = models.CharField(max_length=50)
@@ -129,7 +143,7 @@ class Ingresos(models.Model):
         ordering = ["-id"]
 
 
-class Gastos(models.Model):
+class Gastos(models.Model,DictMixin):
 
     fecha = models.DateField(blank=True, null=True)
     descripcion = models.CharField(max_length=50)
@@ -152,7 +166,7 @@ class Gastos(models.Model):
         ordering = ["-id"]
 
 
-class Saldo(models.Model):
+class Saldo(models.Model,DictMixin):
     fecha = models.DateField(auto_now=True)
     saldo = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     
@@ -166,14 +180,14 @@ class Saldo(models.Model):
         ordering = ["-id"]
 
 
-class Tienda(models.Model):
+class Tienda(models.Model,DictMixin):
     nombre = models.CharField(max_length=50, unique=True)
     ubicacion = models.CharField(max_length=250)
 
     def __str__(self):
         return self.nombre
     
-class Inventario_producto(models.Model):
+class Inventario_producto(models.Model,DictMixin):
     stock_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
     @property
@@ -184,7 +198,7 @@ class Inventario_producto(models.Model):
         return self.stock_producto.nombre +" "+ str(self.total_almacen)
 
 
-class Inventario_materia(models.Model):
+class Inventario_materia(models.Model,DictMixin):
     stock_ingrediente = models.ForeignKey(Ingrediente, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
     cantidad_kg = models.PositiveIntegerField(default=0)
@@ -197,8 +211,37 @@ class Inventario_materia(models.Model):
         return f"Producto: {self.stock_ingrediente.nombre} Unidades: {self.total_almacen[0]} cantidad_kilos {self.total_almacen[1]}"
 
 
-class Cliente(models.Model):
-    pass
+class Cliente(models.Model,DictMixin):
+    nombre = models.CharField(max_length=50,unique=True)
+    dni = models.IntegerField(
+         validators=[
+            MinValueValidator(10000000),  
+            MaxValueValidator(99999999)  
+        ],unique=True
+    )
+    apellidos = models.CharField(max_length=50)
+    edad = models.IntegerField()
 
-class Venta(models.Model):
-    pass
+    def __str__(self):
+        return self.nombre
+
+class Venta(models.Model,DictMixin):
+    fecha = models.DateTimeField(auto_now=True)
+    products = models.ManyToManyField(Producto)
+    client = models.ForeignKey(Cliente,  null=True, blank=True, on_delete=models.CASCADE)
+    tienda = models.ForeignKey(Tienda,  null=True, blank=True, on_delete=models.CASCADE)
+    description = models.CharField(max_length=500)
+    cantidad = models.DecimalField(max_digits=10, decimal_places=2)
+    total_venta = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def clean(self):
+        # Asegúrate de que al menos uno de `client` o `tienda` esté presente
+        if not self.client and not self.tienda:
+            raise ValidationError('Debe especificar al menos un cliente o una tienda para la venta.')
+        
+        if self.client and self.tienda:
+            raise ValidationError('No se puede especificar tanto un cliente como una tienda en una sola venta.')
+    def save(self,*args,**kwargs):
+        self.clean()
+        super().save(*args,**kwargs)    
+# crear para que las clases devuelta a dictionario la informacion
