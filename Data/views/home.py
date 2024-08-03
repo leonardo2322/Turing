@@ -4,4 +4,4 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView
 
 class Home(TemplateView):
-    template_name = "base.html"
+    template_name = "index/Welcome.html"

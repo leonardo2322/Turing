@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+    <div class="container-fluid">
+      <h1 class="title text-light mb-5 text-center mt-5"> Bienvenido a Turing-System</h1>
+      <div class="row">
+        <div class="col-sm-4 mb-3 mb-sm-0">
+          <div class="card">
+            <div class="card-header bg-transparent d-flex justify-content-between">
+              <h5 class="card-title text-success">Ventas <span class="text-secondary fs-6 opacity-25" style="vertical-align: inherit;">| Hoy</span></h5>
+              <div class="btn-group">
+                <button class="btn " role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i> </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Hoy</a></li>
+                  <li><a class="dropdown-item" href="#">Este Mes</a></li>
+                  <li><a class="dropdown-item" href="#">Este Año</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Gestionar</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body d-flex justify-content-between">
+              <div class="container  rounded-circle d-flex justify-content-center" id="circle-img" >
+                <img src="{% static 'img/carrito.png' %}" alt="carrito"  width="70" height="70">
+              </div>
+              <div class="data d-flex flex-column">
+                <h6 class="t-venta">406.78 <span>$</span></h6>
+                <h4 class="porcentaje">8% <span>aumentar</span></h4>
+              </div>
+              
+            </div>
+           
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header bg-transparent d-flex justify-content-between">
+              <h5 class="card-title text-success">Ingresos<span class="text-secondary fs-6 opacity-25" style="vertical-align: inherit;">| este Mes</span></h5>
+              <div class="btn-group">
+                <button class="btn " role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i> </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Hoy</a></li>
+                  <li><a class="dropdown-item" href="#">Este Mes</a></li>
+                  <li><a class="dropdown-item" href="#">Este Año</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Gestionar</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body d-flex justify-content-between">
+              <div class="container  rounded-circle d-flex justify-content-center" id="circle-img-ingresos" >
+                <img src="{% static 'img/divisa.png' %}" alt="carrito"  width="70" height="70">
+              </div>
+              <div class="data d-flex flex-column">
+                <h6 class="t-venta">8.500.23 <span>$</span></h6>
+                <h4 class="porcentaje">60% <span>disminuyendo</span></h4>
+              </div>
+              
+            </div>
+           
+          </div> 
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header bg-transparent d-flex justify-content-between">
+              <h5 class="card-title text-success">Clientes <span class="text-secondary fs-6 opacity-25" style="vertical-align: inherit;">| Hoy</span></h5>
+              <div class="btn-group">
+                <button class="btn " role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i> </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Hoy</a></li>
+                  <li><a class="dropdown-item" href="#">Este Mes</a></li>
+                  <li><a class="dropdown-item" href="#">Este Año</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Gestionar</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body d-flex justify-content-between">
+              <div class="container  rounded-circle d-flex justify-content-center" id="circle-img-clientes" style="background-color: #ffecdf;  width: 100px;
+                                                  height: 80px;
+                                                  padding: 5px;">
+                <img src="{% static 'img/clientes.png' %}" alt="carrito"  width="70" height="70">
+              </div>
+              <div class="data d-flex flex-column">
+                <h6 class="t-venta">1208.62 <span>$</span></h6>
+                <h4 class="porcentaje-c">22% <span>aumentar</span></h4>
+              </div>
+              
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card mt-5">
+          <div class="card-body">
+            <h5 class="card-title">Reportes</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Grafico de materiales y recursos</h6>
+            <div class="container d-flex justify-content-center flex-column">
+              <img src="{% static 'img/grafico.png' %}" alt="grafico" class="img-fluid">
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card mt-5">
+          <div class="card-body">
+            <h5 class="card-title">Reportes</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Grafico de materiales y recursos</h6>
+            <div class="container d-flex justify-content-center flex-column">
+              <img src="{% static 'img/grafico.png' %}" alt="grafico" class="img-fluid">
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+    

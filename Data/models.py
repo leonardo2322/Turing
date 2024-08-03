@@ -92,7 +92,6 @@ class Producto(models.Model,DictMixin):
     def costo_venta(self):
         cantidades_ingredientes = CantidadIngrediente.objects.filter(receta=self.receta)
         costo_total = sum(cantidad_ingrediente.costo_total() for cantidad_ingrediente in cantidades_ingredientes)
-
         return costo_total
     
     @property

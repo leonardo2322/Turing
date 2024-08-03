@@ -1,14 +1,64 @@
 {% extends 'base.html' %}
 
-
+{% load static %}
 {% block content %}
- <h1>{{ title }} </h1>
-  <ul> 
-    {% for article in object_list %}
-      <li>{{ article }}</li>
-{% empty %}
-    <li>No articles yet.</li>
-{% endfor %}
-  </ul>
+    <div class="card">
+        <h5 class="card-header"> {{ title }} </h5>
+        <div class="card-body">
+            <table id="Table_list" class="display">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Receta</th>
+                            <th>precio_venta</th>
+                            <th>descripcion</th>
+                            <th>porcentaje_ganancia</th>
+                            <th>cantidad_en_stock</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in object_list %}
+                        <tr>
+                            <td>{{c.nombre}}</td>
+                            <td>{{c.receta}}</td>
+                            <td>{{c.costo_venta|floatformat:2}}</td>
+                            <td>{{c.descripcion}}</td>
+                            <td>{{c.porcentaje_ganancia}}</td>
+                            <td>{{c.cantidad_en_stock}}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning"><i class="fa-solid fa-file-pen"></i></button>
+                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <span>No articles yet.</span>
+                    {% endfor %}
+                    </tbody>
+              
+                </table>
+               
+        </div>
+        <div class="card-footer text-body-secondary">
+            2 days ago
+          </div>
+    </div>
+    
+         
+
 {% endblock content %}
-  
+
+{% block scripts %}
+<script>
+    $(document).ready( function () {
+            $('#Table_list').DataTable({
+                responsive:true,
+                language: {
+                    url : "{% static 'spanish.txt' %}"
+                }
+            });
+    } ); 
+</script>
+
+{% endblock scripts %}
+    
